@@ -1,0 +1,24 @@
+.arena {
+    margin-left: auto;
+    margin-right: auto;
+    border: 3px solid purple;
+    position: relative;
+    overflow: hidden;
+}
+
+.chao {
+    background-color: bisque;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.jogador {
+    background-image: url(../img/burrowscolt.png);
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+}
