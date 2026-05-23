@@ -22,9 +22,9 @@ import colisao from './colisao.js';
 
     function run() {
         jogador.corre();
-        if (colisao(jogador,inimigo)){
-            jogador.vida--;
-        }
+        // if (colisao(jogador,inimigo)){
+        //     jogador.vida--;
+        // }
     }
 
     init();
