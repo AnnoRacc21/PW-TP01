@@ -3,7 +3,6 @@ export default class Jogador {
         this.element = document.createElement("div");
         this.element.className = "jogador";
         
-        this.vida = 3;
         this.x = 482;
         this.y = 330;
         this.velocidade = 3; 
