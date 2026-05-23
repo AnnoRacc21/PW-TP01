@@ -16,7 +16,7 @@ import Colisao from './colisao.js';
 
         controles = new Controles();        
         arena = new Arena(HEIGHT, WIDTH);
-        colisao = new Colisao()
+        colisao = new Colisao(arena.container)
         jogador = new Jogador(arena.container, controles, colisao);
 
         gameLoop = setInterval(run, 1000 / FPS);

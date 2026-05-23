@@ -1,54 +1,97 @@
 export default class Colisao {
-    constructor() {
-        this.paredesDaArena = [ // Delimita as paredes da arena
-                // --- CANTO SUPERIOR ESQUERDO ---
-            { x: 122, y: 95, largura: 197  , altura: 45},  // Parte horizontal superior
-            { x: 125, y: 95, largura: 20, altura: 250 },  // Parte vertical esquerda
+    constructor(arenaElement) {
+        this.arenaElement = arenaElement;
 
-            // --- CANTO SUPERIOR DIREITO ---
-            { x: 415, y: 100, largura: 184, altura: 40 },  // Parte horizontal superior
-            { x: 584, y: 100, largura: 19, altura: 250 },  // Parte vertical direita
-
-            // --- CANTO INFERIOR ESQUERDO ---
-            { x: 125, y: 410, largura: 25, altura: 200 },  // Parte vertical esquerda
-            { x: 125, y: 571, largura: 190, altura: 40 },  // Parte horizontal inferior
-
-            // --- CANTO INFERIOR DIREITO ---
-            { x: 580, y: 400, largura: 25, altura: 210 },  // Parte vertical direita
-            { x: 405, y: 565, largura: 200, altura: 45 }   // Parte horizontal inferior
+        // Paredes em percentual (x/largura_arena, y/altura_arena)
+        // valores originais baseados em arena de 710 x 710 px
+        this.paredesRelativas = [
+            // CANTO SUPERIOR ESQUERDO
+            { xPct: 0.172, yPct: 0.134, larguraPct: 0.277, alturaPct: 0.063 },
+            { xPct: 0.176, yPct: 0.134, larguraPct: 0.028, alturaPct: 0.352 },
+            // CANTO SUPERIOR DIREITO
+            { xPct: 0.584, yPct: 0.141, larguraPct: 0.259, alturaPct: 0.056 },
+            { xPct: 0.822, yPct: 0.141, larguraPct: 0.027, alturaPct: 0.352 },
+            // CANTO INFERIOR ESQUERDO
+            { xPct: 0.176, yPct: 0.577, larguraPct: 0.035, alturaPct: 0.282 },
+            { xPct: 0.176, yPct: 0.804, larguraPct: 0.268, alturaPct: 0.056 },
+            // CANTO INFERIOR DIREITO
+            { xPct: 0.817, yPct: 0.563, larguraPct: 0.035, alturaPct: 0.296 },
+            { xPct: 0.570, yPct: 0.795, larguraPct: 0.282, alturaPct: 0.063 },
         ];
+        // DEBUG — remove depois de calibrar
+        setTimeout(() => {
+            const w = this.arenaElement.offsetWidth;
+            const h = this.arenaElement.offsetHeight;
+            this.paredesRelativas.forEach(p => {
+                const div = document.createElement("div");
+                div.style.position   = "absolute";
+                div.style.left       = `${p.xPct * w}px`;
+                div.style.top        = `${p.yPct * h}px`;
+                div.style.width      = `${p.larguraPct * w}px`;
+                div.style.height     = `${p.alturaPct * h}px`;
+                div.style.backgroundColor = "rgba(255,0,0,0.5)";
+                div.style.zIndex     = "999";
+                div.style.pointerEvents = "none";
+                this.arenaElement.appendChild(div);
+            });
+        }, 100);
 
-        // // O código abaixo foi utilizado para pintar as hitbox da arena (tentativa e erro até ajustar certinho)
+        // DEBUG + resize — dentro do constructor, depois do paredesRelativas
+        this._desenharDebug = () => {
+            // remove blocos antigos
+            this.arenaElement.querySelectorAll(".debug-hitbox").forEach(d => d.remove());
 
-        // paredesDaArena.forEach(parede => {
-        //         const visualBlock = document.createElement("div");
-        //         visualBlock.style.position = "absolute";
-        //         visualBlock.style.left = `${parede.x}px`;
-        //         visualBlock.style.top = `${parede.y}px`;
-        //         visualBlock.style.width = `${parede.largura}px`;
-        //         visualBlock.style.height = `${parede.altura}px`;
-        //         visualBlock.style.backgroundColor = "rgba(255, 0, 0, 0.5)"; // Vermelho transparente
-        //         visualBlock.style.zIndex = "999"; 
-        //         this.container.appendChild(visualBlock);
-        //     });
+            const w = this.arenaElement.offsetWidth;
+            const h = this.arenaElement.offsetHeight;
+            this.paredesRelativas.forEach(p => {
+                const div = document.createElement("div");
+                div.className             = "debug-hitbox";
+                div.style.position        = "absolute";
+                div.style.left            = `${p.xPct * w}px`;
+                div.style.top             = `${p.yPct * h}px`;
+                div.style.width           = `${p.larguraPct * w}px`;
+                div.style.height          = `${p.alturaPct * h}px`;
+                div.style.backgroundColor = "rgba(255,0,0,0.5)";
+                div.style.zIndex          = "999";
+                div.style.pointerEvents   = "none";
+                this.arenaElement.appendChild(div);
+            });
+        };
 
-    }    
+        // desenha na primeira vez e toda vez que a arena mudar de tamanho
+        this._resizeObserver = new ResizeObserver(() => this._desenharDebug());
+        this._resizeObserver.observe(this.arenaElement);
+    }
 
-    _testarSobreposicao(retangulo1, retangulo2) { // Método matemático interno (AABB)
+    
+
+    // Converte percentuais para pixels no momento da checagem
+    _getParedesPixels() {
+        const w = this.arenaElement.offsetWidth;
+        const h = this.arenaElement.offsetHeight;
+        return this.paredesRelativas.map(p => ({
+            x:       p.xPct       * w,
+            y:       p.yPct       * h,
+            largura: p.larguraPct * w,
+            altura:  p.alturaPct  * h,
+        }));
+    }
+
+    _testarSobreposicao(r1, r2) {
         return (
-            retangulo1.x < retangulo2.x + retangulo2.largura &&
-            retangulo1.x + retangulo1.largura > retangulo2.x &&
-            retangulo1.y < retangulo2.y + retangulo2.altura &&
-            retangulo1.y + retangulo1.altura > retangulo2.y
+            r1.x < r2.x + r2.largura &&
+            r1.x + r1.largura > r2.x &&
+            r1.y < r2.y + r2.altura &&
+            r1.y + r1.altura > r2.y
         );
     }
 
-    estaColidindo(hitboxObjeto) { // recebe uma Hitbox temporária e diz se ela bate em alguma parede
-        for (let parede of this.paredesDaArena) {
+    estaColidindo(hitboxObjeto) {
+        for (let parede of this._getParedesPixels()) {
             if (this._testarSobreposicao(hitboxObjeto, parede)) {
-                return true; // Se colidir para
+                return true;
             }
         }
-        return false; // Caminho livre
+        return false;
     }
 }

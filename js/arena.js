@@ -16,7 +16,7 @@ export default class Arena { // Agora a arena é composta de chão + parede
             this.chao.style.left = "0";
             this.chao.style.height = "100%";
             this.chao.style.width = "100%";
-            this.chao.style.backgroundImage = "url(../assets/images/arena_chao.png);"
+            this.chao.style.backgroundImage = "url(../assets/images/arena_chao.png)";
 
 
             // Criação da Parede
@@ -28,7 +28,7 @@ export default class Arena { // Agora a arena é composta de chão + parede
             this.parede.style.height = "100%";
             this.parede.style.width = "100%";
             this.parede.style.pointerEvents = "none"; 
-            this.parede.style.backgroundImage = "url(../assets/images/arena_paredes.png);"
+            this.parede.style.backgroundImage = "url(../assets/images/arena_paredes.png)";
 
 
             // Adiciona o chão e depois a parede
