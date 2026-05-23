@@ -2,6 +2,7 @@ import Arena from './arena.js'
 import Jogador from './jogador.js'
 import Controles from './controles.js';
 import { FPS, WIDTH, HEIGHT } from './config.js'
+import colisao from './colisao.js';
 
 (function () {
     let gameLoop;
@@ -21,6 +22,9 @@ import { FPS, WIDTH, HEIGHT } from './config.js'
 
     function run() {
         jogador.corre();
+        if (colisao(jogador,inimigo)){
+            jogador.vida--;
+        }
     }
 
     init();
