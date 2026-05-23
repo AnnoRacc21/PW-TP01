@@ -14,7 +14,7 @@
 }
 
 .jogador {
-    background-image: url(../img/burrowscolt.png);
+    background-image: url(../assets/images/burrowscolt.png);
     width: 60px;
     height: 60px;
     background-size: contain;
