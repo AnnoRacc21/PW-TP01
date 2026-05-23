@@ -1,31 +1,109 @@
-.arena {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-right: auto;
-    border: 3px solid purple;
-    position: relative;
+body {
+    margin: 0;
     overflow: hidden;
 }
 
-.chao {
-    background-image: url(../assets/images/arena_background.png);
-    background-position: center;
-    background-color: bisque;
-    position: absolute;
-    height: 100%;
-    width: 100%;
-}
-
 .jogador {
-    background-image: url(../assets/images/robo_base.png);
-    width: 150px;
-    height: 150px;
+    background-image: url(../assets/images/burrowscolt.png);
+    width: 60px;
+    height: 60px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     position: absolute;
+}
+
+.rato_base {
+    background-image: url(../assets/images/rato_radioativo.jpg);
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+}
+
+.rato_v2 {
+    background-image: url(../assets/images/rato_radioativo_2.png);
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+}
+
+.besouro {
+    background-image: url(../assets/images/inimigo.png);
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+}
+
+.robo_base {
+    background-image: url(../assets/images/robo01.jpg);
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+}
+
+.rato_v2 {
+    background-image: url(../assets/images/robo_02.png);
+    width: 60px;
+    height: 60px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+}
+
+.arena1 {
+    background-image: url(../assets/images/arena01.jpg);
+    background-size: cover;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+.arena2 {
+    background-image: url(../assets/images/arena02.jpg);
+    background-size: cover;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+.arena3 {
+    background-image: url(../assets/images/arena03.jpg);
+    background-size: cover;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+.arena4 {
+    background-image: url(../assets/images/arena05.jpg);
+    background-size: cover;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+}
+
+.arena5 {
+    background-image: url(../assets/images/arena05.jpg);
+    background-size: cover;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
 }
