@@ -1,4 +1,9 @@
 .arena {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
     margin-left: auto;
     margin-right: auto;
     border: 3px solid purple;
@@ -7,6 +12,8 @@
 }
 
 .chao {
+    background-image: url(../assets/images/arena_background.png);
+    background-position: center;
     background-color: bisque;
     position: absolute;
     height: 100%;
@@ -14,9 +21,9 @@
 }
 
 .jogador {
-    background-image: url(../assets/images/burrowscolt.png);
-    width: 60px;
-    height: 60px;
+    background-image: url(../assets/images/robo_base.png);
+    width: 150px;
+    height: 150px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
