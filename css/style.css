@@ -3,10 +3,24 @@ body {
     overflow: hidden;
 }
 
+#cenario-jogo {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    width: 100vw;            
+    height: 100vh;           
+    background-color: #bbb;
+    overflow: hidden;        
+    position: relative;
+}
+
+.arena-container {
+    box-sizing: border-box;
+}
+
 .jogador {
     background-image: url(../assets/images/robo_base.png);
-    width: 120px;
-    height: 120px;
+    z-index: 20; /* Pra poder ficar na frente das camadas da arena*/
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -106,4 +120,18 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
+}
+
+.chao {
+    background-image: url('../assets/images/arena_chao.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 1; /* Fica atrás */
+}
+
+.parede {
+    background-image: url('../assets/images/arena_paredes.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    z-index: 10; /* Fica na frente */
 }
