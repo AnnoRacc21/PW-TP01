@@ -13,20 +13,20 @@ export default class Colisao {
         this.paredesRelativas = [
 
             // CANTO SUPERIOR ESQUERDO
-            { xPct: 0.172, yPct: 0.134, larguraPct: 0.277, alturaPct: 0.063 },
-            { xPct: 0.176, yPct: 0.134, larguraPct: 0.028, alturaPct: 0.352 },
+            { xPct: 0.170, yPct: 0.134, larguraPct: 0.275, alturaPct: 0.064 },
+            { xPct: 0.176, yPct: 0.134, larguraPct: 0.028, alturaPct: 0.325 },
 
             // CANTO SUPERIOR DIREITO
-            { xPct: 0.584, yPct: 0.141, larguraPct: 0.259, alturaPct: 0.056 },
-            { xPct: 0.822, yPct: 0.141, larguraPct: 0.027, alturaPct: 0.352 },
+            { xPct: 0.574, yPct: 0.137, larguraPct: 0.251, alturaPct: 0.060 },
+            { xPct: 0.802, yPct: 0.131, larguraPct: 0.027, alturaPct: 0.335 },
 
             // CANTO INFERIOR ESQUERDO
-            { xPct: 0.176, yPct: 0.577, larguraPct: 0.035, alturaPct: 0.282 },
-            { xPct: 0.176, yPct: 0.804, larguraPct: 0.268, alturaPct: 0.056 },
+            { xPct: 0.170, yPct: 0.575, larguraPct: 0.030, alturaPct: 0.265 },
+            { xPct: 0.170, yPct: 0.804, larguraPct: 0.260, alturaPct: 0.040 },
 
             // CANTO INFERIOR DIREITO
-            { xPct: 0.817, yPct: 0.563, larguraPct: 0.035, alturaPct: 0.296 },
-            { xPct: 0.570, yPct: 0.795, larguraPct: 0.282, alturaPct: 0.063 },
+            { xPct: 0.800, yPct: 0.550, larguraPct: 0.035, alturaPct: 0.296 },
+            { xPct: 0.558, yPct: 0.795, larguraPct: 0.275, alturaPct: 0.050 },
         ];
 
         // desenha paredes debug

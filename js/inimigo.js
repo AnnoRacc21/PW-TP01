@@ -95,9 +95,7 @@ export class Inimigo extends Entidade {
 
             fechada.add(`${atual.x},${atual.y}`);
 
-            // ====================================
             // limite de profundidade
-            // ====================================
 
             if (atual.g >= MAX_PASSOS) {
 

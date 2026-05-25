@@ -28,7 +28,8 @@ body {
 }
 
 .rato_base {
-    background-image: url(../assets/images/rato_radioativo.jpg);
+    background-image: url(../assets/images/rato_radioativo.png);
+    z-index: 30; /* Pra poder ficar na frente das camadas da arena*/
     width: 60px;
     height: 60px;
     background-size: contain;
@@ -39,6 +40,7 @@ body {
 
 .rato_v2 {
     background-image: url(../assets/images/rato_radioativo_2.png);
+    z-index: 30; /* Pra poder ficar na frente das camadas da arena*/
     width: 60px;
     height: 60px;
     background-size: contain;
@@ -48,7 +50,8 @@ body {
 }
 
 .besouro {
-    background-image: url(../assets/images/inimigo.png);
+    background-image: url(../assets/images/besouro.png);
+    z-index: 30; /* Pra poder ficar na frente das camadas da arena*/
     width: 60px;
     height: 60px;
     background-size: contain;
@@ -59,6 +62,7 @@ body {
 
 .robo_base {
     background-image: url(../assets/images/robo01.jpg);
+    z-index: 30; /* Pra poder ficar na frente das camadas da arena*/
     width: 60px;
     height: 60px;
     background-size: contain;
@@ -67,8 +71,9 @@ body {
     position: absolute;
 }
 
-.rato_v2 {
+.robo_v2 {
     background-image: url(../assets/images/robo_02.png);
+    z-index: 30; /* Pra poder ficar na frente das camadas da arena*/
     width: 60px;
     height: 60px;
     background-size: contain;
