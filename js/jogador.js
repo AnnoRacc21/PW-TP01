@@ -1,39 +1,23 @@
 import { ALTURA_PERSONAGEM, LARGURA_PERSONAGEM } from "./config.js"
+import Entidade from "./entidade.js"
 
-export default class Jogador {
-    constructor(arenaElement, controles, colisao) {
-        this.element = document.createElement("div");
-        this.element.className = "jogador";
-        this.element.style.height = `${ALTURA_PERSONAGEM}px`;
-        this.element.style.width  = `${LARGURA_PERSONAGEM}px`;
 
-        // hitbox menor que o sprite (60%), centralizada
-        this.altura  = ALTURA_PERSONAGEM  * 0.6;
-        this.largura = LARGURA_PERSONAGEM * 0.6;
+export default class Jogador extends Entidade {
+        constructor(arenaElement, controles, colisao) {
+        super(
+            arenaElement,
+            colisao,
+            "jogador",
+            3,
+            3
+        );
 
-        this.vida = 3;
-        this.x = (arenaElement.offsetWidth  / 2) - (LARGURA_PERSONAGEM / 2);
-        this.y = (arenaElement.offsetHeight / 2) - (ALTURA_PERSONAGEM  / 2);
-        this.velocidade = 3;
-        this.movimentacaoX = 0;
-        this.movimentacaoY = 0;
-        this.colisao  = colisao;
         this.controles = controles;
-        arenaElement.appendChild(this.element);
-        this.renderizar();
     }
 
     calcularAngulo() {
         let anguloEmGraus = Math.atan2(this.movimentacaoY, this.movimentacaoX) * (180 / Math.PI);
         this.angulo = anguloEmGraus - 90;
-    }
-
-    renderizar() {
-        this.element.style.top  = `${this.y}px`;
-        this.element.style.left = `${this.x}px`;
-        if (this.angulo !== undefined) {
-            this.element.style.transform = `rotate(${this.angulo}deg)`;
-        }
     }
 
     corre() {
