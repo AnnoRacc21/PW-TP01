@@ -15,10 +15,15 @@ export default class Jogador extends Entidade {
         this.controles = controles;
     }
 
-    calcularAngulo() {
-        let anguloEmGraus = Math.atan2(this.movimentacaoY, this.movimentacaoX) * (180 / Math.PI);
-        this.angulo = anguloEmGraus - 90;
-    }
+
+    // renderizar() { 
+    //     this.element.style.top = `${this.y}px`;
+    //     this.element.style.left = `${this.x}px`;
+        
+    //     if (this.angulo !== undefined) { 
+    //         this.element.style.transform = `rotate(${this.angulo}deg)`;
+    //     }
+    // }
 
     corre() {
         const keyW = this.controles.estaPressionada("KeyW");
@@ -29,21 +34,14 @@ export default class Jogador extends Entidade {
         this.movimentacaoY = keyS - keyW;
         this.movimentacaoX = keyD - keyA;
 
+        // Calcula a intenção de movimento do jogador
         let proximoX = this.x + this.movimentacaoX * this.velocidade;
         let proximoY = this.y + this.movimentacaoY * this.velocidade;
 
-        // offset para centralizar a hitbox no sprite
-        const offX = (LARGURA_PERSONAGEM - this.largura) / 2;
-        const offY = (ALTURA_PERSONAGEM  - this.altura)  / 2;
-
-        let hitboxTesteX = { x: proximoX + offX, y: this.y    + offY, largura: this.largura, altura: this.altura };
-        let hitboxTesteY = { x: this.x   + offX, y: proximoY  + offY, largura: this.largura, altura: this.altura };
-
-        if (!this.colisao.estaColidindo(hitboxTesteX)) this.x = proximoX;
-        if (!this.colisao.estaColidindo(hitboxTesteY)) this.y = proximoY;
+        this.tentarMover(proximoX, proximoY);
 
         if (this.movimentacaoX !== 0 || this.movimentacaoY !== 0) {
-            this.calcularAngulo();
+            this.atualizarAngulo(this.movimentacaoX, this.movimentacaoY);
         }
 
         this.renderizar();

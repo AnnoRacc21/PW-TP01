@@ -10,7 +10,8 @@ export class Inimigo extends Entidade {
             colisao,
             tipo,
             velocidade,
-            vida
+            vida,
+            0
         );
 
         this.spawnarNasBordas(arenaElement);
@@ -145,10 +146,13 @@ export class Inimigo extends Entidade {
                 if (fechada.has(chave)) {
                     continue;
                 }
+                
+                const offX = (LARGURA_PERSONAGEM - this.largura) / 2;
+                const offY = (ALTURA_PERSONAGEM - this.altura) / 2;
 
                 const hitbox = {
-                    x: vizinhoX * TAMANHO_GRID,
-                    y: vizinhoY * TAMANHO_GRID,
+                    x: (vizinhoX * TAMANHO_GRID) + offX,
+                    y: (vizinhoY * TAMANHO_GRID) + offY,
                     largura: this.largura,
                     altura: this.altura
                 };
@@ -213,28 +217,22 @@ export class Inimigo extends Entidade {
     }
 
     moverParaNodo(nodo, TAMANHO_GRID) {
-
-        const alvoX =
-            nodo.x * TAMANHO_GRID;
-
-        const alvoY =
-            nodo.y * TAMANHO_GRID;
+        const alvoX = nodo.x * TAMANHO_GRID;
+        const alvoY = nodo.y * TAMANHO_GRID;
 
         const dx = alvoX - this.x;
         const dy = alvoY - this.y;
 
-        const distancia =
-            Math.sqrt(dx * dx + dy * dy);
+        const distancia = Math.sqrt(dx * dx + dy * dy);
 
         if (distancia > 0) {
+            this.atualizarAngulo(dx, dy);
 
-            this.x +=
-                (dx / distancia) *
-                this.velocidade;
+            // Calcula a intenção de passo do Inimigo
+            let proximoX = this.x + (dx / distancia) * this.velocidade;
+            let proximoY = this.y + (dy / distancia) * this.velocidade;
 
-            this.y +=
-                (dy / distancia) *
-                this.velocidade;
+            this.tentarMover(proximoX, proximoY);
         }
 
         this.renderizar();

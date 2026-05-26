@@ -52,8 +52,8 @@ body {
 .besouro {
     background-image: url(../assets/images/besouro.png);
     z-index: 30; /* Pra poder ficar na frente das camadas da arena*/
-    width: 60px;
-    height: 60px;
+    width: 30px;
+    height: 30px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -61,10 +61,10 @@ body {
 }
 
 .robo_base {
-    background-image: url(../assets/images/robo01.jpg);
+    background-image: url(../assets/images/robo01.png);
     z-index: 30; /* Pra poder ficar na frente das camadas da arena*/
-    width: 60px;
-    height: 60px;
+    width: 30px;
+    height: 30px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
@@ -74,8 +74,8 @@ body {
 .robo_v2 {
     background-image: url(../assets/images/robo_02.png);
     z-index: 30; /* Pra poder ficar na frente das camadas da arena*/
-    width: 60px;
-    height: 60px;
+    width: 30px;
+    height: 30px;
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;

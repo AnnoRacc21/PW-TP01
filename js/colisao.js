@@ -29,14 +29,14 @@ export default class Colisao {
             { xPct: 0.558, yPct: 0.795, larguraPct: 0.275, alturaPct: 0.050 },
         ];
 
-        // desenha paredes debug
-        this._desenharParedesDebug();
+        // // Desenha paredes debug
+        // this._desenharParedesDebug();
 
-        this._resizeObserver = new ResizeObserver(() => {
-            this._desenharParedesDebug();
-        });
+        // this._resizeObserver = new ResizeObserver(() => {
+        //     this._desenharParedesDebug();
+        // });
 
-        this._resizeObserver.observe(this.arenaElement);
+        // this._resizeObserver.observe(this.arenaElement);
     }
 
     _desenharParedesDebug() {
