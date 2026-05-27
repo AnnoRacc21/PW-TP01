@@ -1,4 +1,4 @@
-import { ALTURA_PERSONAGEM, LARGURA_PERSONAGEM, TEMPO_ESPERA_DISPARO, VOLUME_JOGO } from "./config.js"
+import { ALTURA_PERSONAGEM, LARGURA_PERSONAGEM, TEMPO_ESPERA_DISPARO, VOLUME_JOGO, TEMPO_INVULNERAVEL} from "./config.js"
 import Entidade from "./entidade.js"
 import Projetil from "./projetil.js";
 
@@ -8,11 +8,17 @@ const somDisparo = new Audio("../assets/audio/disparo_arma.mp3");
 
 export default class Jogador extends Entidade {
         constructor(arenaElement, controles, colisao) {
-        super(arenaElement, colisao, "jogador", 3, 3);
+        super(arenaElement, colisao, "jogador", 3, 10);
         this.controles = controles;
         // Configurações de cadência de tiro
         this.ultimoDisparo = 0;
+        this.ultimoDanoRecebido = 0;
+        
+        this.vidaMax = 10;
+        this.vida = 10;
+        this.tempoInvulneravel = TEMPO_INVULNERAVEL;
         this.tempoRecarga = TEMPO_ESPERA_DISPARO; // Tempo em milissegundos entre um tiro e outro
+        this.atualizarInterfaceVida();
     }
 
 
@@ -79,5 +85,61 @@ export default class Jogador extends Entidade {
 
             this.ultimoDisparo = agora; // Reinicia o relógio do cooldown
         }
+    }
+
+    receberDano(quantidade) {
+        const agora = Date.now();
+        // Se ainda estiver no tempo de proteção (invulnerável), ignora o dano
+        if (agora - this.ultimoDanoRecebido < this.tempoInvulneravel) return;
+
+        this.vida -= quantidade;
+        this.ultimoDanoRecebido = agora;
+
+        // Atualiza a barra visual e o texto do HTML
+        this.atualizarInterfaceVida();
+
+        // Faz o robô piscar (ficar transparente) enquanto estiver invulnerável
+        if (this.element) {
+            this.element.style.opacity = "0.5";
+            setTimeout(() => {
+                if (this.element) this.element.style.opacity = "1";
+            }, this.tempoInvulneravel);
+        }
+
+        // Se a vida acabar, o jogador morre
+        if (this.vida <= 0) {
+            this.morrer();
+        }
+    }
+
+    atualizarInterfaceVida() {
+        // Atualiza o número escrito no HUD 
+        const elementoTextoVida = document.getElementById("texto-vida");
+        if (elementoTextoVida) {
+            elementoTextoVida.innerText = Math.max(0, this.vida); 
+        }
+
+        // Atualiza o preenchimento da barra
+        const elementoBarraPlay = document.getElementById("barra-vida-preenchimento");
+        if (elementoBarraPlay) {
+            let porcentagem = (this.vida / this.vidaMax) * 100;
+            porcentagem = Math.max(0, porcentagem); // Não deixa ficar menor que 0%
+            
+            elementoBarraPlay.style.width = `${porcentagem}%`;
+
+            // Muda a cor da barra baseado na quantidade de vida
+            if (porcentagem < 30) {
+                elementoBarraPlay.style.backgroundColor = "#ff3333"; // Vermelho (Crítico)
+            } else if (porcentagem < 60) {
+                elementoBarraPlay.style.backgroundColor = "#ffcc00"; // Amarelo (Alerta)
+            } else {
+                elementoBarraPlay.style.backgroundColor = "#00ff66"; // Verde (Saudável)
+            }
+        }
+    }
+
+    morrer() {
+        alert("Game Over! O robô foi destruído.");
+        window.location.reload(); // Recarrega a página para reiniciar o jogo
     }
 }
