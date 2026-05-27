@@ -27,6 +27,18 @@ body {
     position: absolute;
 }
 
+.projetil {
+    width: 64px;
+    height: 64px;
+    z-index: 30; /* Pra aparecer na frente de tudo*/
+    background-image: url('../assets/images/disparo.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+    transform-origin: center center;
+}
+
 .rato_base {
     background-image: url(../assets/images/rato_radioativo.png);
     z-index: 30; /* Pra poder ficar na frente das camadas da arena*/
@@ -84,42 +96,6 @@ body {
 
 .arena1 {
     background-image: url(../assets/images/arena_so.png);
-    background-size: cover;
-    margin: 0 auto;
-    background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
-}
-
-.arena2 {
-    background-image: url(../assets/images/arena02.jpg);
-    background-size: cover;
-    margin: 0 auto;
-    background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
-}
-
-.arena3 {
-    background-image: url(../assets/images/arena03.jpg);
-    background-size: cover;
-    margin: 0 auto;
-    background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
-}
-
-.arena4 {
-    background-image: url(../assets/images/arena05.jpg);
-    background-size: cover;
-    margin: 0 auto;
-    background-repeat: no-repeat;
-    background-position: center;
-    position: relative;
-}
-
-.arena5 {
-    background-image: url(../assets/images/arena05.jpg);
     background-size: cover;
     margin: 0 auto;
     background-repeat: no-repeat;

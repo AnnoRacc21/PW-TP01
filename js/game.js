@@ -6,6 +6,7 @@ import { Inimigo } from './inimigo.js';
 
 import {FPS, WIDTH, HEIGHT } from './config.js';
 
+
 (function () {
 
     let gameLoop;
@@ -14,7 +15,7 @@ import {FPS, WIDTH, HEIGHT } from './config.js';
     let jogador;
     let controles;
     let colisao;
-
+    let projeteis_ativos = [];
     let inimigos = [];
 
     // =========================================
@@ -36,31 +37,31 @@ import {FPS, WIDTH, HEIGHT } from './config.js';
 
         {
             tipo: "rato_base",
-            vida: 10,
+            vida: 3,
             velocidade: 2
         },
 
         {
             tipo: "rato_v2",
-            vida: 15,
+            vida: 6,
             velocidade: 2.5
         },
 
         {
             tipo: "besouro",
-            vida: 20,
-            velocidade: 1.5
+            vida: 10,
+            velocidade: 0.8
         },
 
         {
             tipo: "robo_base",
-            vida: 30,
+            vida: 15,
             velocidade: 1
         },
 
         {
             tipo: "robo_v2",
-            vida: 40,
+            vida: 10,
             velocidade: 0.8
         }
     ];
@@ -136,7 +137,8 @@ import {FPS, WIDTH, HEIGHT } from './config.js';
 
     function run() {
 
-        jogador.corre();
+        jogador.corre(); // Pra correr
+        jogador.atirar(projeteis_ativos); // Pra poder atirar
 
         // =========================
         // SPAWN TEMPORIZADO
@@ -152,16 +154,45 @@ import {FPS, WIDTH, HEIGHT } from './config.js';
 
             ultimoSpawn = agora;
         }
+         
+        // =========================
+        // PROJETEIS
+        // =========================
+
+        for (let i = projeteis_ativos.length - 1; i >= 0; i--) {
+            const projetil = projeteis_ativos[i];
+            
+            // Move o tiro e checa colisões contra a nossa lista de inimigos atual
+            projetil.atualizar(inimigos);
+
+            // Se o tiro colidiu ou saiu da arena, remove ele do array de rastreamento
+            if (!projetil.ativo) {
+                projeteis_ativos.splice(i, 1);
+            }
+        }
 
         // =========================
         // INIMIGOS
         // =========================
 
-        for (const inimigo of inimigos) {
+        for (let i = inimigos.length - 1; i >= 0; i--) {
+            const inimigo = inimigos[i];
 
-            inimigo.buscaJogador(
-                jogador
-            );
+            // Checa se o inimigo morreu. Se a vida do inimigo zerou devido aos tiros
+            if (inimigo.vida <= 0) {
+                // Remove o elemento visual e as hitboxes de debug do inimigo da tela
+                if (inimigo.element) 
+                    inimigo.element.remove();
+                if (inimigo.hitboxDebug) 
+                    inimigo.hitboxDebug.remove();
+                
+                // Remove o objeto da lista
+                inimigos.splice(i, 1);
+                continue;
+            }
+
+            // Se continuar vivo, segue buscando o jogador com o A*
+            inimigo.buscaJogador(jogador);
         }
     }
 
