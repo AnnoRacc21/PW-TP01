@@ -7,7 +7,15 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div id="cenario-jogo"></div>
+    <div id="cenario-jogo">
+        <div id="hud-container">
+        <div class="hud-texto">SCORE: <span id="texto-pontos">00000</span></div>
+        <div class="hud-texto">HP: <span id="texto-vida">100</span></div>
+        <div class="barra-vida-fundo">
+            <div id="barra-vida-preenchimento"></div>
+        </div>
+    </div>
+    </div>
     <script type="module" src="js/game.js"></script>
 </body>
 </html>

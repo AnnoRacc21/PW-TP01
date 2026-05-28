@@ -11,6 +11,12 @@ export const FPS = 60;
 
 // Velocidade disparo
 
-export const TEMPO_ESPERA_DISPARO = 300 // ms
+export let TEMPO_ESPERA_DISPARO = 300 // ms
 
-export const VOLUME_JOGO = 0.1 // em %
+// Volume do jogo
+export let VOLUME_JOGO = 0.1 // em %
+
+// Tempo de Invecibilidade após levar dano
+export let TEMPO_INVULNERAVEL = 500 // em ms
+
+//

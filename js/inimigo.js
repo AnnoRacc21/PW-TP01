@@ -3,7 +3,7 @@ import {ALTURA_PERSONAGEM, LARGURA_PERSONAGEM} from "./config.js"
 
 export class Inimigo extends Entidade {
 
-    constructor(arenaElement, colisao, tipo, vida, velocidade) {
+    constructor(arenaElement, colisao, tipo, vida, velocidade, dano, pontuacao) {
 
         super(
             arenaElement,
@@ -11,9 +11,11 @@ export class Inimigo extends Entidade {
             tipo,
             velocidade,
             vida,
-            0
+            0,
         );
-
+        
+        this.dano = dano
+        this.pontuacao = pontuacao
         this.spawnarNasBordas(arenaElement);
 
         this.renderizar();
