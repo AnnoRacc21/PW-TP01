@@ -239,6 +239,7 @@ export class Inimigo extends Entidade {
 
         this.renderizar();
     }
+
 }
 
 

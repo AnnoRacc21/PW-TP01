@@ -44,7 +44,7 @@ export default class Projetil extends Entidade {
             return;
         }
 
-        // Colisão com os inimigos
+        // Colisão com os inimigos (dá dano neles)
         for (let inimigo of inimigos) {
             let hitboxInimigo = {
                 x: inimigo.x + (LARGURA_PERSONAGEM - inimigo.largura) / 2,
@@ -56,9 +56,20 @@ export default class Projetil extends Entidade {
             // Se a hitbox do tiro encostar na hitbox do inimigo
             if (this.colisao._testarSobreposicao(hitboxTiro, hitboxInimigo)) {
                 inimigo.vida -= 1; // Aplica dano ao inimigo
-                this.destruir();
+                if (inimigo.element) {
+                    // Adiciona a classe de piscar qnd receber dano
+                    inimigo.element.classList.add("piscar-dano");
+
+                    // Remove o efeito após 100ms para o inimigo voltar à cor original
+                    setTimeout(() => {
+                        inimigo.element.classList.remove("piscar-dano");
+                    }, 100);
+                }
+
+                this.destruir(); // Destrói o projétil
                 return;
             }
+
         }
 
         // Se passou em todos os testes, efetiva o movimento

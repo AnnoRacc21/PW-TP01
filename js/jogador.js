@@ -3,8 +3,9 @@ import Entidade from "./entidade.js"
 import Projetil from "./projetil.js";
 
 const somDisparo = new Audio("../assets/audio/disparo_arma.mp3");
-        somDisparo.volume = 0.3
-         * VOLUME_JOGO; // Ajusta o volume
+const somDanoRobo = new Audio("../assets/audio/dano_robo.mp3");
+somDisparo.volume = 0.3 * VOLUME_JOGO; // Ajusta o volume
+somDanoRobo.volume = 0.3 * VOLUME_JOGO // Ajusta o volume
 
 export default class Jogador extends Entidade {
         constructor(arenaElement, controles, colisao) {
@@ -20,7 +21,6 @@ export default class Jogador extends Entidade {
         this.tempoRecarga = TEMPO_ESPERA_DISPARO; // Tempo em milissegundos entre um tiro e outro
         this.atualizarInterfaceVida();
     }
-
 
     // renderizar() { 
     //     this.element.style.top = `${this.y}px`;
@@ -78,7 +78,7 @@ export default class Jogador extends Entidade {
             }
 
             // Cria o novo projétil e o coloca na lista global do loop principal
-            somDisparo.currentTime = 0
+            somDisparo.currentTime = 0;
             somDisparo.play(); // Coloca o som de disparo
             const novoTiro = new Projetil(this.arenaElement, this.colisao, this.x, this.y, dirX, dirY);
             listaDeProjeteisGlobal.push(novoTiro);
@@ -97,6 +97,10 @@ export default class Jogador extends Entidade {
 
         // Atualiza a barra visual e o texto do HTML
         this.atualizarInterfaceVida();
+        
+        // Faz barulho de dano (metal)
+        somDanoRobo.currentTime = 0;
+        somDanoRobo.play(); // Coloca o som de metal
 
         // Faz o robô piscar (ficar transparente) enquanto estiver invulnerável
         if (this.element) {
