@@ -4,7 +4,7 @@ import Controles from './controles.js';
 import Colisao from './colisao.js';
 import { Inimigo } from './inimigo.js';
 
-import {FPS, WIDTH, HEIGHT } from './config.js';
+import {FPS, LARGURA_ARENA, ALTURA_ARENA, VOLUME_MUSICA} from './config.js';
 
 
 (function () {
@@ -18,6 +18,11 @@ import {FPS, WIDTH, HEIGHT } from './config.js';
     let projeteis_ativos = [];
     let inimigos = [];
     let pontuacao = 0
+    const musicaFundo = new Audio('../assets/audio/musica_tema.mp3'); 
+    // Configurações iniciais da música
+    musicaFundo.loop = true;          
+    musicaFundo.volume = VOLUME_MUSICA; 
+    let musicaMutada = false;
 
     // =========================================
     // CONFIG SPAWN
@@ -55,9 +60,9 @@ import {FPS, WIDTH, HEIGHT } from './config.js';
         {
             tipo: "besouro",
             vida: 10,
-            velocidade: 0.8,
+            velocidade: 2.5,
             dano: 2,
-            pontuacao: 750
+            pontuacao: 1000
         },
 
         {
@@ -76,38 +81,6 @@ import {FPS, WIDTH, HEIGHT } from './config.js';
             pontuacao: 800
         }
     ];
-
-    // =========================================
-    // INIT
-    // =========================================
-
-    function init() {
-
-        controles = new Controles();
-
-        arena = new Arena(
-            HEIGHT,
-            WIDTH
-        );
-
-        colisao = new Colisao(
-            arena.container
-        );
-
-        jogador = new Jogador(
-            arena.container,
-            controles,
-            colisao
-        );
-
-        // Inicializa o HUD com 00000 no começo da partida
-        atualizarHudPontos();
-
-        gameLoop = setInterval(
-            run,
-            1000 / FPS
-        );
-    }
 
     // =========================================
     // SPAWN
@@ -245,6 +218,74 @@ import {FPS, WIDTH, HEIGHT } from './config.js';
             inimigo.buscaJogador(jogador);
         }
     }
+
+    // =========================================
+    // RESPONSIVIDADE
+    // =========================================
+
+    function ajustarTela() {
+        const cenario = document.getElementById("cenario-jogo");
+        if (!cenario) return;
+
+        const larguraOriginal = LARGURA_ARENA; 
+        const alturaOriginal = ALTURA_ARENA;
+
+        // Pega o tamanho real e atual da janela do navegador
+        const larguraJanela = window.innerWidth;
+        const alturaJanela = window.innerHeight;
+
+        // Descobre a escala necessária para a largura e para a altura separadamente
+        const escalaX = larguraJanela / larguraOriginal;
+        const escalaY = alturaJanela / alturaOriginal;
+        
+        cenario.style.transform = `scale(${escalaX}, ${escalaY})`;
+    }
+
+     // =========================================
+    // MÚSICA
+    // =========================================
+
+    function gerenciarMusica() {
+        const botao = document.getElementById("botao-musica");
+        if (!botao) return;
+
+        botao.addEventListener("click", () => {
+            // Se a música estava pausada (primeiro clique do jogo), começa a tocar
+            if (musicaFundo.paused && !musicaMutada) {
+                musicaFundo.play().catch();
+                botao.src = "../assets/images/musica_on.png"
+                return;
+            }
+
+            // Lógica de Mute / Unmute
+            if (musicaMutada) {
+                musicaFundo.muted = false;
+                botao.src = "../assets/images/musica_on.png"
+                musicaMutada = false;
+            } else {
+                musicaFundo.muted = true;
+                botao.src = "../assets/images/musica_off.png"
+                musicaMutada = true;
+            }
+        });
+    }
+
+    // =========================================
+    // INIT
+    // =========================================
+
+    function init() {
+        controles = new Controles();
+        arena = new Arena(ALTURA_ARENA, LARGURA_ARENA);
+        colisao = new Colisao(arena.container);
+        jogador = new Jogador(arena.container, controles, colisao);
+        atualizarHudPontos(); // Inicializa o HUD com 00000 no começo da partida
+        gerenciarMusica(); // Ativa o ouvinte de clique do botão
+        ajustarTela();
+        window.addEventListener("resize", ajustarTela); 
+        gameLoop = setInterval(run,1000 / FPS);
+    }
+
     init();
 
 })();
