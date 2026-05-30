@@ -3,6 +3,7 @@ import Jogador from './jogador.js';
 import Controles from './controles.js';
 import Colisao from './colisao.js';
 import { Inimigo } from './inimigo.js';
+import { PowerUp } from './powerUp.js';
 
 import {FPS, LARGURA_ARENA, ALTURA_ARENA, VOLUME_MUSICA} from './config.js';
 
@@ -17,6 +18,7 @@ import {FPS, LARGURA_ARENA, ALTURA_ARENA, VOLUME_MUSICA} from './config.js';
     let colisao;
     let projeteis_ativos = [];
     let inimigos = [];
+    let powerUps = [];
     let pontuacao = 0
     const musicaFundo = new Audio('../assets/audio/musica_tema.mp3'); 
     // Configurações iniciais da música
@@ -32,8 +34,10 @@ import {FPS, LARGURA_ARENA, ALTURA_ARENA, VOLUME_MUSICA} from './config.js';
 
     let intervaloSpawn = 5000; // 5 segundos
     const INTERVALO_MINIMO = 1000;
+    let intervaloSpawnPUp = 8000 // 8 segundos
 
     let ultimoSpawn = 0;
+    let ultimoSpawnPUp = 0;
 
     // =========================================
     // TIPOS DE INIMIGOS
@@ -82,6 +86,13 @@ import {FPS, LARGURA_ARENA, ALTURA_ARENA, VOLUME_MUSICA} from './config.js';
         }
     ];
 
+    const tiposPowerUps = [ 
+        {
+            tipo: "power_up_vida",
+            efeito: () => {jogador.receberCura(2)}
+        }
+    ]
+
     // =========================================
     // SPAWN
     // =========================================
@@ -120,6 +131,19 @@ import {FPS, LARGURA_ARENA, ALTURA_ARENA, VOLUME_MUSICA} from './config.js';
         }
     }
 
+    function spawnarPowerUp() {
+
+        const config = tiposPowerUps[ Math.floor(Math.random() * tiposPowerUps.length)]
+        const powerUp = new PowerUp(
+            arena.container,
+            colisao,
+            config.tipo,
+            config.efeito
+        )
+
+        powerUps.push(powerUp)
+    }
+
     // =========================================
     // FUNÇÕES AUXILIARES DO HUD
     // =========================================
@@ -150,9 +174,16 @@ import {FPS, LARGURA_ARENA, ALTURA_ARENA, VOLUME_MUSICA} from './config.js';
             agora - ultimoSpawn >= intervaloSpawn
         ) {
 
-            spawnarInimigo();
+            spawnarInimigo(); //Spawna um inimigo
 
             ultimoSpawn = agora;
+        }
+
+        if (
+            agora - ultimoSpawnPUp >= intervaloSpawnPUp
+        ) {
+            spawnarPowerUp(); //spawna um power up
+            ultimoSpawnPUp = agora;
         }
          
         // =========================
@@ -216,6 +247,38 @@ import {FPS, LARGURA_ARENA, ALTURA_ARENA, VOLUME_MUSICA} from './config.js';
 
             // Se não encostou e continua vivo, segue caçando o jogador
             inimigo.buscaJogador(jogador);
+        }
+
+        // =========================
+        //  POWER UPS
+        // =========================
+
+        for (let i = powerUps.length - 1; i >= 0; i--) {
+            const powerUp = powerUps[i]
+
+            let hitboxJogador = {
+                x: jogador.x,
+                y: jogador.y,
+                largura: jogador.largura,
+                altura: jogador.altura
+            };
+
+            let hitboxPowerUp = {
+                x: powerUp.x,
+                y: powerUp.y,
+                largura: powerUp.largura,
+                altura: powerUp.altura
+            };
+
+            if (colisao._testarSobreposicao(hitboxJogador, hitboxPowerUp)) {
+                
+                powerUp.efeito()
+
+                if (powerUp.element) powerUp.element.remove();
+                if (powerUp.hitboxDebug) powerUp.hitboxDebug.remove();
+                powerUps.splice(i, 1);
+                continue;
+            }
         }
     }
 

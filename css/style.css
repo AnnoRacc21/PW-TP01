@@ -195,3 +195,13 @@ html, body {
     background-repeat: no-repeat;
     z-index: 10; /* Fica na frente */
 }
+
+.power_up_vida {
+    background-image: url('../assets/images/power_up_vida.png');
+    z-index: 30;
+    width: 3px;
+    height: 9px;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: absolute;
+}
