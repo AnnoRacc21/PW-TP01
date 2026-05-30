@@ -116,6 +116,11 @@ export default class Jogador extends Entidade {
         }
     }
 
+    receberCura(quantidade) {
+        this.vida = Math.min(this.vida + quantidade, 10);
+        this.atualizarInterfaceVida();
+    }
+
     atualizarInterfaceVida() {
         // Atualiza o número escrito no HUD 
         const elementoTextoVida = document.getElementById("texto-vida");
